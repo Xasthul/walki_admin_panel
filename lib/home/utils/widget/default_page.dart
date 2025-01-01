@@ -15,23 +15,28 @@ class DefaultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 32,
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 16),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 32,
+                ),
               ),
-            ),
-            Expanded(
-              child: isLoading //
-                  ? const Center(child: AppCircularProgressIndicator())
+              const SizedBox(height: 24),
+              isLoading
+                  ? const Expanded(
+                      child: Center(child: AppCircularProgressIndicator()),
+                    )
                   : content,
-            ),
-          ],
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       );
 }

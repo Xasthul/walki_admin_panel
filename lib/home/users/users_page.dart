@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:walki_admin_panel/home/users/utils/widget/users_table.dart';
 import 'package:walki_admin_panel/home/utils/widget/default_page.dart';
 
 class UsersPage extends StatelessWidget {
@@ -7,7 +8,7 @@ class UsersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => const DefaultPage(
         title: 'Users',
-        isLoading: true,
-        content: SizedBox(),
+        isLoading: false,
+        content: UsersTable(),
       );
 }
