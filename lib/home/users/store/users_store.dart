@@ -12,15 +12,12 @@ abstract class UsersStoreBase with Store {
   @readonly
   bool _sortAscending = true;
   @readonly
-  bool _sortNameAscending = true;
-  @readonly
-  bool _sortEmailAscending = true;
-  @readonly
-  bool _sortPlacesVisitedAscending = true;
-  @readonly
-  bool _sortReviewsWrittenAscending = true;
-  @readonly
   bool _isLoading = false;
+
+  bool _sortNameAscending = true;
+  bool _sortEmailAscending = true;
+  bool _sortPlacesVisitedAscending = true;
+  bool _sortReviewsWrittenAscending = true;
 
   @action
   void load() {
@@ -52,7 +49,7 @@ abstract class UsersStoreBase with Store {
       _sortAscending = _sortEmailAscending;
     }
     users.sort(
-      (a, b) => sortAscending //
+      (a, b) => _sortAscending //
           ? a.email.compareTo(b.email)
           : b.email.compareTo(a.email),
     );
@@ -67,7 +64,7 @@ abstract class UsersStoreBase with Store {
       _sortAscending = _sortNameAscending;
     }
     users.sort(
-      (a, b) => sortAscending //
+      (a, b) => _sortAscending //
           ? a.name.compareTo(b.name)
           : b.name.compareTo(a.name),
     );
@@ -82,7 +79,7 @@ abstract class UsersStoreBase with Store {
       _sortAscending = _sortPlacesVisitedAscending;
     }
     users.sort(
-      (a, b) => sortAscending //
+      (a, b) => _sortAscending //
           ? b.placesVisited.compareTo(a.placesVisited)
           : a.placesVisited.compareTo(b.placesVisited),
     );
@@ -97,7 +94,7 @@ abstract class UsersStoreBase with Store {
       _sortAscending = _sortReviewsWrittenAscending;
     }
     users.sort(
-      (a, b) => sortAscending //
+      (a, b) => _sortAscending //
           ? b.reviewsWritten.compareTo(a.reviewsWritten)
           : a.reviewsWritten.compareTo(b.reviewsWritten),
     );
