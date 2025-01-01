@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:walki_admin_panel/app/utils/di/getIt.dart';
 import 'package:walki_admin_panel/home/users/store/users_store.dart';
 import 'package:walki_admin_panel/home/users/utils/widget/users_table.dart';
-import 'package:walki_admin_panel/home/utils/widget/default_page.dart';
+import 'package:walki_admin_panel/home/utils/widget/default_table_page.dart';
 
 class UsersPage extends StatefulWidget {
   const UsersPage({super.key});
@@ -17,10 +17,10 @@ class _UsersPageState extends State<UsersPage> {
 
   @override
   Widget build(BuildContext context) => Observer(
-        builder: (context) => DefaultPage(
+        builder: (context) => DefaultTablePage(
           title: 'Users',
           isLoading: _store.isLoading,
-          content: const UsersTable(),
+          table: const UsersTable(),
         ),
       );
 }
