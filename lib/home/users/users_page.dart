@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:walki_admin_panel/app/utils/di/getIt.dart';
+import 'package:walki_admin_panel/home/users/store/users_store.dart';
 import 'package:walki_admin_panel/home/users/utils/widget/users_table.dart';
 import 'package:walki_admin_panel/home/utils/widget/default_page.dart';
 
-class UsersPage extends StatelessWidget {
+class UsersPage extends StatefulWidget {
   const UsersPage({super.key});
 
   @override
-  Widget build(BuildContext context) => const DefaultPage(
-        title: 'Users',
-        isLoading: false,
-        content: UsersTable(),
+  State<UsersPage> createState() => _UsersPageState();
+}
+
+class _UsersPageState extends State<UsersPage> {
+  final _store = getIt<UsersStore>();
+
+  @override
+  Widget build(BuildContext context) => Observer(
+        builder: (context) => DefaultPage(
+          title: 'Users',
+          isLoading: _store.isLoading,
+          content: const UsersTable(),
+        ),
       );
 }

@@ -19,9 +19,12 @@ abstract class UsersStoreBase with Store {
   bool _sortPlacesVisitedAscending = true;
   @readonly
   bool _sortReviewsWrittenAscending = true;
+  @readonly
+  bool _isLoading = false;
 
   @action
   void load() {
+    _isLoading = true;
     final List<User> loadedUsers = [
       const User(
         email: 'email@email.com',
@@ -37,6 +40,7 @@ abstract class UsersStoreBase with Store {
       ),
     ];
     users = ObservableList.of(loadedUsers);
+    _isLoading = false;
   }
 
   @action
