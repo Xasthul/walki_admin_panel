@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+import 'package:walki_admin_panel/home/users/utils/use_case/users_use_case.dart';
 import 'package:walki_admin_panel/home/utils/entity/user.dart';
 
 part 'users_store.g.dart';
@@ -6,6 +7,12 @@ part 'users_store.g.dart';
 class UsersStore = UsersStoreBase with _$UsersStore;
 
 abstract class UsersStoreBase with Store {
+  UsersStoreBase({
+    required UsersUseCase usersUseCase,
+  }) : _usersUseCase = usersUseCase;
+
+  final UsersUseCase _usersUseCase;
+
   ObservableList<User> users = ObservableList.of([]);
   @readonly
   int? _sortColumnIndex;
@@ -20,24 +27,14 @@ abstract class UsersStoreBase with Store {
   bool _sortReviewsWrittenAscending = true;
 
   @action
-  void load() {
+  Future<void> load() async {
     _isLoading = true;
-    final List<User> loadedUsers = [
-      const User(
-        email: 'email@email.com',
-        name: 'Nazarii',
-        placesVisited: 3,
-        reviewsWritten: 1,
-      ),
-      const User(
-        email: 'andrew@email.com',
-        name: 'Andrew',
-        placesVisited: 5,
-        reviewsWritten: 3,
-      ),
-    ];
-    users = ObservableList.of(loadedUsers);
-    _isLoading = false;
+    try {
+      final loadedUsers = await _usersUseCase.getUsers();
+      users = ObservableList.of(loadedUsers);
+    } finally {
+      _isLoading = false;
+    }
   }
 
   @action
