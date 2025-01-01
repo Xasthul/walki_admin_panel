@@ -21,7 +21,11 @@ class HomeDependencies extends StatefulWidget {
 class _HomeDependenciesState extends State<HomeDependencies> with DependencyScope {
   @override
   void registerDependencies() {
-    getIt.registerSingleton<UsersService>(UsersService());
+    getIt.registerSingleton<UsersService>(
+      UsersService(
+        client: getIt(),
+      ),
+    );
     getIt.registerSingleton<UsersMapper>(UsersMapper());
     getIt.registerSingleton<UsersUseCase>(
       UsersUseCase(
