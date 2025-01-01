@@ -6,8 +6,8 @@ import 'package:walki_admin_panel/home/users/utils/mapper/users_mapper.dart';
 import 'package:walki_admin_panel/home/users/utils/service/users_service.dart';
 import 'package:walki_admin_panel/home/users/utils/use_case/users_use_case.dart';
 
-class HomeDependencies extends StatefulWidget {
-  const HomeDependencies({
+class UsersDependencies extends StatefulWidget {
+  const UsersDependencies({
     super.key,
     required Widget child,
   }) : _child = child;
@@ -15,10 +15,10 @@ class HomeDependencies extends StatefulWidget {
   final Widget _child;
 
   @override
-  State<HomeDependencies> createState() => _HomeDependenciesState();
+  State<UsersDependencies> createState() => _UsersDependenciesState();
 }
 
-class _HomeDependenciesState extends State<HomeDependencies> with DependencyScope {
+class _UsersDependenciesState extends State<UsersDependencies> with DependencyScope {
   @override
   void registerDependencies() {
     getIt.registerSingleton<UsersService>(

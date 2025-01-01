@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:walki_admin_panel/app/utils/di/getIt.dart';
-import 'package:walki_admin_panel/home/users/store/users_store.dart';
+import 'package:walki_admin_panel/home/places/store/places_store.dart';
 
-class UsersTable extends StatefulWidget {
-  const UsersTable({super.key});
+class PlacesTable extends StatefulWidget {
+  const PlacesTable({super.key});
 
   @override
-  State<UsersTable> createState() => _UsersTableState();
+  State<PlacesTable> createState() => _PlacesTableState();
 }
 
-class _UsersTableState extends State<UsersTable> {
-  final _store = getIt<UsersStore>();
+class _PlacesTableState extends State<PlacesTable> {
+  final _store = getIt<PlacesStore>();
 
   @override
   Widget build(BuildContext context) => Observer(
         builder: (context) {
-          if (_store.users.isNotEmpty) {
+          if (_store.places.isNotEmpty) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Total: ${_store.users.length}',
+                  'Total: ${_store.places.length}',
                   style: const TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Selected: ${_store.selectedUsers.length}',
+                  'Selected: ${_store.selectedPlaces.length}',
                   style: const TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 12),
@@ -39,37 +39,32 @@ class _UsersTableState extends State<UsersTable> {
                   sortAscending: _store.sortAscending,
                   columns: [
                     DataColumn(
-                      label: const Text('Email'),
-                      onSort: _store.onEmailSort,
-                    ),
-                    DataColumn(
                       label: const Text('Name'),
                       onSort: _store.onNameSort,
                     ),
                     DataColumn(
-                      label: const Text('Places Visited'),
+                      label: const Text('Times Visited'),
                       numeric: true,
-                      onSort: _store.onPlacesVisitedSort,
+                      onSort: _store.onTimesVisitedSort,
                     ),
                     DataColumn(
-                      label: const Text('Reviews Written'),
+                      label: const Text('Number of Reviews'),
                       numeric: true,
-                      onSort: _store.onReviewsWrittenSort,
+                      onSort: _store.onReviewsNumberSort,
                     ),
                   ],
-                  rows: _store.users
+                  rows: _store.places
                       .map(
-                        (user) => DataRow(
-                          selected: _store.selectedUsers.contains(user),
-                          onSelectChanged: (isSelected) => _store.onUserSelected(
-                            user: user,
+                        (place) => DataRow(
+                          selected: _store.selectedPlaces.contains(place),
+                          onSelectChanged: (isSelected) => _store.onPlaceSelected(
+                            place: place,
                             isSelected: isSelected,
                           ),
                           cells: [
-                            DataCell(Text(user.email)),
-                            DataCell(Text(user.name)),
-                            DataCell(Text('${user.placesVisited}')),
-                            DataCell(Text('${user.reviewsWritten}')),
+                            DataCell(Text(place.name)),
+                            DataCell(Text('${place.timesVisited}')),
+                            DataCell(Text('${place.reviewsNumber}')),
                           ],
                         ),
                       )
@@ -79,7 +74,7 @@ class _UsersTableState extends State<UsersTable> {
             );
           }
           return const Text(
-            'There are no users yet.',
+            'There are no places yet.',
             style: TextStyle(fontSize: 16),
           );
         },
