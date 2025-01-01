@@ -12,17 +12,27 @@ final router = GoRouter(
       routes: [
         GoRoute(
           path: '/users',
-          builder: (context, state) => const UsersPage(),
+          pageBuilder: (context, state) => _NoTransition(state, child: const UsersPage()),
         ),
         GoRoute(
           path: '/places',
-          builder: (context, state) => const PlacesPage(),
+          pageBuilder: (context, state) => _NoTransition(state, child: const PlacesPage()),
         ),
         GoRoute(
           path: '/places-reviews',
-          builder: (context, state) => const PlacesReviewsPage(),
+          pageBuilder: (context, state) => _NoTransition(state, child: const PlacesReviewsPage()),
         ),
       ],
     ),
   ],
 );
+
+class _NoTransition extends CustomTransitionPage {
+  _NoTransition(GoRouterState state, {required super.child})
+      : super(
+          key: state.pageKey,
+          transitionsBuilder: (_, __, ___, child) => child,
+          reverseTransitionDuration: Duration.zero,
+          transitionDuration: Duration.zero,
+        );
+}
