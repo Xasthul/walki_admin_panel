@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class NavigationBarComponent extends StatelessWidget {
-  const NavigationBarComponent({
-    super.key,
-    required this.selectedIndex,
-    required this.onItemTapped,
-  });
-
-  final int selectedIndex;
-  final Function(int) onItemTapped;
+  const NavigationBarComponent({super.key});
 
   @override
   Widget build(BuildContext context) => Container(
@@ -29,33 +23,20 @@ class NavigationBarComponent extends StatelessWidget {
                     ),
                   ),
                   const Divider(color: Colors.white),
-                  _NavigationBarItem(
+                  const _NavigationBarItem(
                     label: 'Users',
                     icon: Icons.person_rounded,
-                    onItemTapped: onItemTapped,
-                    selectedIndex: selectedIndex,
-                    index: 0,
+                    route: '/users',
                   ),
-                  _NavigationBarItem(
+                  const _NavigationBarItem(
                     label: 'Places',
                     icon: Icons.place_rounded,
-                    onItemTapped: onItemTapped,
-                    selectedIndex: selectedIndex,
-                    index: 1,
+                    route: '/places',
                   ),
-                  _NavigationBarItem(
+                  const _NavigationBarItem(
                     label: "Places' reviews",
                     icon: Icons.rate_review_rounded,
-                    onItemTapped: onItemTapped,
-                    selectedIndex: selectedIndex,
-                    index: 2,
-                  ),
-                  _NavigationBarItem(
-                    label: "Reports",
-                    icon: Icons.file_present_rounded,
-                    onItemTapped: onItemTapped,
-                    selectedIndex: selectedIndex,
-                    index: 3,
+                    route: '/places-reviews',
                   ),
                   const Spacer(),
                   ListTile(
@@ -75,16 +56,12 @@ class _NavigationBarItem extends StatelessWidget {
   const _NavigationBarItem({
     required this.label,
     required this.icon,
-    required this.onItemTapped,
-    required this.selectedIndex,
-    required this.index,
+    required this.route,
   });
 
   final String label;
   final IconData icon;
-  final Function(int) onItemTapped;
-  final int selectedIndex;
-  final int index;
+  final String route;
 
   @override
   Widget build(BuildContext context) => ListTile(
@@ -93,8 +70,7 @@ class _NavigationBarItem extends StatelessWidget {
           style: const TextStyle(color: Colors.white),
         ),
         leading: Icon(icon, color: Colors.white),
-        onTap: () => onItemTapped(index),
-        selected: selectedIndex == index,
+        onTap: () => context.go(route),
         selectedTileColor: Colors.blue[700],
       );
 }
