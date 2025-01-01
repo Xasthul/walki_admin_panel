@@ -14,50 +14,57 @@ class NavigationBarComponent extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         width: 250,
         color: Colors.blueAccent,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'Walki Admin Panel',
-                style: TextStyle(color: Colors.white, fontSize: 24),
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      'Walki Admin Panel',
+                      style: TextStyle(color: Colors.white, fontSize: 24),
+                    ),
+                  ),
+                  const Divider(color: Colors.white),
+                  _NavigationBarItem(
+                    label: 'Users',
+                    icon: Icons.person_rounded,
+                    onItemTapped: onItemTapped,
+                    selectedIndex: selectedIndex,
+                    index: 0,
+                  ),
+                  _NavigationBarItem(
+                    label: 'Places',
+                    icon: Icons.place_rounded,
+                    onItemTapped: onItemTapped,
+                    selectedIndex: selectedIndex,
+                    index: 1,
+                  ),
+                  _NavigationBarItem(
+                    label: "Places' reviews",
+                    icon: Icons.rate_review_rounded,
+                    onItemTapped: onItemTapped,
+                    selectedIndex: selectedIndex,
+                    index: 2,
+                  ),
+                  _NavigationBarItem(
+                    label: "Reports",
+                    icon: Icons.file_present_rounded,
+                    onItemTapped: onItemTapped,
+                    selectedIndex: selectedIndex,
+                    index: 3,
+                  ),
+                  const Spacer(),
+                  ListTile(
+                    title: const Text('Logout', style: TextStyle(color: Colors.white)),
+                    leading: const Icon(Icons.exit_to_app, color: Colors.white),
+                    onTap: () {},
+                  ),
+                ],
               ),
-            ),
-            const Divider(color: Colors.white),
-            _NavigationBarItem(
-              label: 'Users',
-              icon: Icons.person_rounded,
-              onItemTapped: onItemTapped,
-              selectedIndex: selectedIndex,
-              index: 0,
-            ),
-            _NavigationBarItem(
-              label: 'Places',
-              icon: Icons.place_rounded,
-              onItemTapped: onItemTapped,
-              selectedIndex: selectedIndex,
-              index: 1,
-            ),
-            _NavigationBarItem(
-              label: "Places' reviews",
-              icon: Icons.rate_review_rounded,
-              onItemTapped: onItemTapped,
-              selectedIndex: selectedIndex,
-              index: 2,
-            ),
-            _NavigationBarItem(
-              label: "Reports",
-              icon: Icons.file_present_rounded,
-              onItemTapped: onItemTapped,
-              selectedIndex: selectedIndex,
-              index: 3,
-            ),
-            const Spacer(),
-            ListTile(
-              title: const Text('Logout', style: TextStyle(color: Colors.white)),
-              leading: const Icon(Icons.exit_to_app, color: Colors.white),
-              onTap: () {},
             ),
           ],
         ),
