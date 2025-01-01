@@ -17,7 +17,13 @@ class WalkiAdminPanel extends StatelessWidget {
           routerConfig: router,
           title: 'Walki Admin Panel',
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue).copyWith(
+              onPrimary: Colors.blue[700],
+              primary: Colors.blue[700],
+            ),
+            checkboxTheme: CheckboxThemeData(
+              checkColor: WidgetStateProperty.all(Colors.white),
+            ),
             useMaterial3: true,
           ),
           debugShowCheckedModeBanner: false,

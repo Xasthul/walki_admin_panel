@@ -24,6 +24,11 @@ class _UsersTableState extends State<UsersTable> {
                   'Total: ${_store.users.length}',
                   style: const TextStyle(fontSize: 16),
                 ),
+                const SizedBox(height: 8),
+                Text(
+                  'Selected: ${_store.selectedUsers.length}',
+                  style: const TextStyle(fontSize: 16),
+                ),
                 const SizedBox(height: 12),
                 DataTable(
                   border: TableBorder.all(
@@ -55,6 +60,11 @@ class _UsersTableState extends State<UsersTable> {
                   rows: _store.users
                       .map(
                         (user) => DataRow(
+                          selected: _store.selectedUsers.contains(user),
+                          onSelectChanged: (isSelected) => _store.onUserSelected(
+                            user: user,
+                            isSelected: isSelected,
+                          ),
                           cells: [
                             DataCell(Text(user.email)),
                             DataCell(Text(user.name)),

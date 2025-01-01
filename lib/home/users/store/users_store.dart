@@ -14,6 +14,7 @@ abstract class UsersStoreBase with Store {
   final UsersUseCase _usersUseCase;
 
   ObservableList<User> users = ObservableList.of([]);
+  ObservableList<User> selectedUsers = ObservableList.of([]);
   @readonly
   int? _sortColumnIndex;
   @readonly
@@ -95,5 +96,20 @@ abstract class UsersStoreBase with Store {
           ? b.reviewsWritten.compareTo(a.reviewsWritten)
           : a.reviewsWritten.compareTo(b.reviewsWritten),
     );
+  }
+
+  @action
+  void onUserSelected({
+    required User user,
+    required bool? isSelected,
+  }) {
+    if (isSelected == null) {
+      return;
+    }
+    if (isSelected) {
+      selectedUsers.add(user);
+      return;
+    }
+    selectedUsers.remove(user);
   }
 }
