@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:walki_admin_panel/app/utils/di/getIt.dart';
+import 'package:walki_admin_panel/login/store/login_store.dart';
 import 'package:walki_admin_panel/login/utils/widget/login_container.dart';
 
 class LoginFormComponent extends StatefulWidget {
@@ -9,8 +12,22 @@ class LoginFormComponent extends StatefulWidget {
 }
 
 class _LoginFormComponentState extends State<LoginFormComponent> {
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _store = getIt<LoginStore>();
+  late TextEditingController _usernameController;
+  late TextEditingController _passwordController;
+
+  @override
+  void initState() {
+    super.initState();
+    _usernameController = TextEditingController()
+      ..addListener(
+        () => _store.onUsernameChanged(_usernameController.text),
+      );
+    _passwordController = TextEditingController()
+      ..addListener(
+        () => _store.onPasswordChanged(_passwordController.text),
+      );
+  }
 
   @override
   Widget build(BuildContext context) => LoginContainer(
@@ -46,18 +63,17 @@ class _LoginFormComponentState extends State<LoginFormComponent> {
               ),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                print('Username: ${_usernameController.text}');
-                print('Password: ${_passwordController.text}');
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+            Observer(
+              builder: (context) => ElevatedButton(
+                onPressed: _store.canLogin ? _store.login : null,
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
+                child: const Text('Login'),
               ),
-              child: const Text('Login'),
             ),
           ],
         ),
