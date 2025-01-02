@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:walki_admin_panel/app/utils/di/getIt.dart';
+import 'package:walki_admin_panel/app/utils/widget/loading_shirm.dart';
 import 'package:walki_admin_panel/login/login_dependencies.dart';
 import 'package:walki_admin_panel/login/store/login_store.dart';
 import 'package:walki_admin_panel/login/utils/entity/login_state.dart';
@@ -25,16 +26,21 @@ class _LoginPageBase extends StatefulWidget {
 }
 
 class _LoginPageBaseState extends State<_LoginPageBase> {
-  final LoginStore _store = getIt();
+  final _store = getIt<LoginStore>();
 
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Observer(
-          builder: (context) => switch (_store.state) {
-            LoginForm() => const LoginFormComponent(),
-            LoginTwoFactorAuthenticationSetup() => const LoginTwoFactorAuthenticationSetupComponent(),
-            LoginTwoFactorAuthenticationVerification() => const LoginTwoFactorAuthenticationVerificationComponent(),
-          },
+          builder: (context) => Stack(
+            children: [
+              switch (_store.state) {
+                LoginForm() => const LoginFormComponent(),
+                LoginTwoFactorAuthenticationSetup() => const LoginTwoFactorAuthenticationSetupComponent(),
+                LoginTwoFactorAuthenticationVerification() => const LoginTwoFactorAuthenticationVerificationComponent(),
+              },
+              if (_store.isLoading) const LoadingShirm(),
+            ],
+          ),
         ),
       );
 }
