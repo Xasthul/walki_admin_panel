@@ -5,8 +5,12 @@ import 'package:walki_admin_panel/home/places_reviews/places_reviews_page.dart';
 import 'package:walki_admin_panel/home/users/users_page.dart';
 
 final router = GoRouter(
-  initialLocation: '/users',
+  initialLocation: '/',
   routes: [
+    GoRoute(
+      path: '/',
+      redirect: (context, state) => '/users',
+    ),
     ShellRoute(
       builder: (context, state, child) => HomePage(content: child),
       routes: [
