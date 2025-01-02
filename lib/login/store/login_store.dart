@@ -1,5 +1,6 @@
 import 'package:mobx/mobx.dart';
 import 'package:walki_admin_panel/login/utils/entity/login_state.dart';
+import 'package:walki_admin_panel/login/utils/entity/two_factor_authentication_setup_data.dart';
 import 'package:walki_admin_panel/login/utils/use_case/login_use_case.dart';
 
 part 'login_store.g.dart';
@@ -20,6 +21,8 @@ abstract class LoginStoreBase with Store {
   @readonly
   String _password = '';
   @readonly
+  TwoFactorAuthenticationSetupData? _setupData;
+  @readonly
   bool _isLoading = false;
 
   @computed
@@ -34,7 +37,11 @@ abstract class LoginStoreBase with Store {
         password: _password,
       );
       if (!isTwoFactorAuthenticationEnabled) {
-        _state = LoginState.twoFactorAuthenticationSetup();
+        _setupData = await _loginUseCase.generateTwoFactorAuthenticationSetupData(
+          username: _username,
+          password: _password,
+        );
+        _state = LoginState.twoFactorAuthenticationSetup(_setupData!);
         return;
       }
       _state = LoginState.twoFactorAuthenticationVerification();
@@ -48,4 +55,14 @@ abstract class LoginStoreBase with Store {
 
   @action
   void onPasswordChanged(String password) => _password = password;
+
+  @action
+  void finishTwoFactorAuthenticationSetup() => _state = LoginState.twoFactorAuthenticationVerification();
+
+  @action
+  void returnToTwoFactorAuthenticationSetup(TwoFactorAuthenticationSetupData setupData) =>
+      _state = LoginState.twoFactorAuthenticationSetup(setupData);
+
+  @action
+  void returnToLoginForm() => _state = LoginState.form();
 }

@@ -30,6 +30,13 @@ class _LoginFormComponentState extends State<LoginFormComponent> {
   }
 
   @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) => LoginContainer(
         child: Column(
           mainAxisSize: MainAxisSize.min,

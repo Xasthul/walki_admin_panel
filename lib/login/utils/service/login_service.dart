@@ -1,6 +1,7 @@
 import 'package:walki_admin_panel/app/utils/entity/app_constants.dart';
 import 'package:walki_admin_panel/app/utils/network/dio_client.dart';
 import 'package:walki_admin_panel/login/utils/network/login_response.dart';
+import 'package:walki_admin_panel/login/utils/network/two_factor_authentication_setup_response.dart';
 
 class LoginService {
   LoginService({
@@ -23,5 +24,19 @@ class LoginService {
       },
     );
     return LoginResponse.fromJson(response).isTwoFactorAuthenticationEnabled;
+  }
+
+  Future<TwoFactorAuthenticationSetupResponse> generateTwoFactorAuthenticationSetupData({
+    required String username,
+    required String password,
+  }) async {
+    final response = await _client.post(
+      '$_baseUrl/2fa/generate',
+      body: {
+        'username': username,
+        'password': password,
+      },
+    );
+    return TwoFactorAuthenticationSetupResponse.fromJson(response);
   }
 }

@@ -31,16 +31,23 @@ class _LoginPageBaseState extends State<_LoginPageBase> {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Observer(
-          builder: (context) => Stack(
-            children: [
-              switch (_store.state) {
-                LoginForm() => const LoginFormComponent(),
-                LoginTwoFactorAuthenticationSetup() => const LoginTwoFactorAuthenticationSetupComponent(),
-                LoginTwoFactorAuthenticationVerification() => const LoginTwoFactorAuthenticationVerificationComponent(),
-              },
-              if (_store.isLoading) const LoadingShirm(),
-            ],
-          ),
+          builder: (context) {
+            final state = _store.state;
+            return Stack(
+              children: [
+                switch (state) {
+                  LoginForm() => const LoginFormComponent(),
+                  LoginTwoFactorAuthenticationSetup() => LoginTwoFactorAuthenticationSetupComponent(
+                      setupData: state.setupData,
+                      onContinuePressed: _store.finishTwoFactorAuthenticationSetup,
+                    ),
+                  LoginTwoFactorAuthenticationVerification() =>
+                    const LoginTwoFactorAuthenticationVerificationComponent(),
+                },
+                if (_store.isLoading) const LoadingShirm(),
+              ],
+            );
+          },
         ),
       );
 }
