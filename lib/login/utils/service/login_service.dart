@@ -39,4 +39,18 @@ class LoginService {
     );
     return TwoFactorAuthenticationSetupResponse.fromJson(response);
   }
+
+  Future<void> authenticate({
+    required String username,
+    required String password,
+    required String authenticationCode,
+  }) async =>
+      _client.post(
+        '$_baseUrl/2fa/authenticate',
+        body: {
+          'username': username,
+          'password': password,
+          'twoFactorAuthenticationCode': authenticationCode,
+        },
+      );
 }

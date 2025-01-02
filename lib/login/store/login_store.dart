@@ -23,10 +23,19 @@ abstract class LoginStoreBase with Store {
   @readonly
   TwoFactorAuthenticationSetupData? _setupData;
   @readonly
+  String _authenticationCode = '';
+  @readonly
+  bool _isAuthenticationCodeVerified = false;
+  @readonly
+  String? _authenticationCodeErrorMessage;
+  @readonly
   bool _isLoading = false;
 
   @computed
   bool get canLogin => _username.isNotEmpty && _password.isNotEmpty;
+
+  @computed
+  bool get canVerifyAuthenticationCode => _authenticationCode.length == 6;
 
   @action
   Future<void> login() async {
@@ -51,10 +60,36 @@ abstract class LoginStoreBase with Store {
   }
 
   @action
+  Future<void> verifyAuthenticationCode() async {
+    _isLoading = true;
+    try {
+      await _loginUseCase.authenticate(
+        username: _username,
+        password: _password,
+        authenticationCode: _authenticationCode,
+      );
+      _isAuthenticationCodeVerified = true;
+    } catch (error) {
+      _authenticationCodeErrorMessage = 'Invalid code. Please try again.';
+    } finally {
+      _isLoading = false;
+    }
+  }
+
+  @action
   void onUsernameChanged(String username) => _username = username;
 
   @action
   void onPasswordChanged(String password) => _password = password;
+
+  @action
+  void onAuthenticationCodeChanged(String authenticationCode) {
+    resetAuthenticationCodeErrorMessage();
+    _authenticationCode = authenticationCode;
+  }
+
+  @action
+  void resetAuthenticationCodeErrorMessage() => _authenticationCodeErrorMessage = null;
 
   @action
   void finishTwoFactorAuthenticationSetup() => _state = LoginState.twoFactorAuthenticationVerification();

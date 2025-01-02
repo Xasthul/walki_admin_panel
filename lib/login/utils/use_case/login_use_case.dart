@@ -27,4 +27,15 @@ class LoginUseCase {
       qrCode: response.qrCode.replaceFirst('data:image/png;base64,', ''),
     );
   }
+
+  Future<void> authenticate({
+    required String username,
+    required String password,
+    required String authenticationCode,
+  }) async =>
+      _loginService.authenticate(
+        username: username,
+        password: password,
+        authenticationCode: authenticationCode,
+      );
 }
