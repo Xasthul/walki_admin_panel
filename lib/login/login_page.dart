@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mobx/mobx.dart';
 import 'package:walki_admin_panel/app/utils/di/getIt.dart';
+import 'package:walki_admin_panel/app/utils/router/routes.dart';
+import 'package:walki_admin_panel/app/utils/widget/after_layout.dart';
 import 'package:walki_admin_panel/app/utils/widget/loading_shirm.dart';
+import 'package:walki_admin_panel/app/utils/widget/reaction_dispose.dart';
 import 'package:walki_admin_panel/login/login_dependencies.dart';
 import 'package:walki_admin_panel/login/store/login_store.dart';
 import 'package:walki_admin_panel/login/utils/entity/login_state.dart';
@@ -25,8 +30,23 @@ class _LoginPageBase extends StatefulWidget {
   State<_LoginPageBase> createState() => _LoginPageBaseState();
 }
 
-class _LoginPageBaseState extends State<_LoginPageBase> {
+class _LoginPageBaseState extends State<_LoginPageBase> with ReactionDispose, AfterLayout {
   final _store = getIt<LoginStore>();
+
+  @override
+  void afterFirstLayout(BuildContext context) => disposers.add(
+        reaction(
+          (_) => _store.isAuthenticationCodeVerified,
+          (bool isAuthenticationCodeVerified) {
+            if (isAuthenticationCodeVerified) {
+              Router.neglect(
+                context,
+                () => context.go(UsersRoute().location),
+              );
+            }
+          },
+        ),
+      );
 
   @override
   Widget build(BuildContext context) => Scaffold(
