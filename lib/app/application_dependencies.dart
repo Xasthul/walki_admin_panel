@@ -20,10 +20,13 @@ class ApplicationDependencies extends StatefulWidget {
 class _ApplicationDependenciesState extends State<ApplicationDependencies> with DependencyScope {
   @override
   void registerDependencies() {
+    getIt.registerSingleton<LocalStorage>(LocalStorage());
     getIt.registerSingleton<GenericDioClient>(
       DioClientFactory.createGenericDioClient(),
     );
-    getIt.registerSingleton<LocalStorage>(LocalStorage());
+    getIt.registerSingleton<AuthorizedDioClient>(
+      DioClientFactory.createAuthorizedDioClient(localStorage: getIt()),
+    );
   }
 
   @override

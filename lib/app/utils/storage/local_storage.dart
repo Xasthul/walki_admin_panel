@@ -8,4 +8,6 @@ class LocalStorage {
   Future<void> saveAccessToken(String accessToken) => _storage.setString(_accessTokenKey, accessToken);
 
   Future<String?> get accessToken => _storage.getString(_accessTokenKey);
+
+  Future<void> clearAccessToken() => _storage.remove(_accessTokenKey);
 }

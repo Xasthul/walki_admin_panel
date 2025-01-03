@@ -4,10 +4,10 @@ import 'package:walki_admin_panel/home/users/utils/network/user_response.dart';
 
 class UsersService {
   UsersService({
-    required GenericDioClient client,
+    required AuthorizedDioClient client,
   }) : _client = client;
 
-  final GenericDioClient _client;
+  final AuthorizedDioClient _client;
 
   static const _baseUrl = '${AppConstants.serviceBaseUrl}/admin';
 
