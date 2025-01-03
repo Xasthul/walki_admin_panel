@@ -21,7 +21,12 @@ class _LoginDependenciesState extends State<LoginDependencies> with DependencySc
   @override
   void registerDependencies() {
     getIt.registerSingleton<LoginService>(LoginService(client: getIt()));
-    getIt.registerSingleton<LoginUseCase>(LoginUseCase(loginService: getIt()));
+    getIt.registerSingleton<LoginUseCase>(
+      LoginUseCase(
+        loginService: getIt(),
+        localStorage: getIt(),
+      ),
+    );
     getIt.registerSingleton<LoginStore>(LoginStore(loginUseCase: getIt()));
   }
 

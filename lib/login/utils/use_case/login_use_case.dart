@@ -1,12 +1,16 @@
+import 'package:walki_admin_panel/app/utils/storage/local_storage.dart';
 import 'package:walki_admin_panel/login/utils/entity/two_factor_authentication_setup_data.dart';
 import 'package:walki_admin_panel/login/utils/service/login_service.dart';
 
 class LoginUseCase {
   LoginUseCase({
     required LoginService loginService,
-  }) : _loginService = loginService;
+    required LocalStorage localStorage,
+  })  : _loginService = loginService,
+        _localStorage = localStorage;
 
   final LoginService _loginService;
+  final LocalStorage _localStorage;
 
   Future<bool> login({
     required String username,
@@ -32,10 +36,12 @@ class LoginUseCase {
     required String username,
     required String password,
     required String authenticationCode,
-  }) async =>
-      _loginService.authenticate(
-        username: username,
-        password: password,
-        authenticationCode: authenticationCode,
-      );
+  }) async {
+    final accessToken = await _loginService.authenticate(
+      username: username,
+      password: password,
+      authenticationCode: authenticationCode,
+    );
+    await _localStorage.saveAccessToken(accessToken);
+  }
 }
