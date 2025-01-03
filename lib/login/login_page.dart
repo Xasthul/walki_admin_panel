@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
 import 'package:walki_admin_panel/app/utils/di/getIt.dart';
 import 'package:walki_admin_panel/app/utils/router/routes.dart';
@@ -41,7 +40,7 @@ class _LoginPageBaseState extends State<_LoginPageBase> with ReactionDispose, Af
             if (isAuthenticationCodeVerified) {
               Router.neglect(
                 context,
-                () => context.go(UsersRoute().location),
+                () => UsersRoute().go(context),
               );
             }
           },

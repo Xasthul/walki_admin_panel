@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:walki_admin_panel/app/utils/di/getIt.dart';
+import 'package:walki_admin_panel/home/store/home_store.dart';
 
-class NavigationBarComponent extends StatelessWidget {
+class NavigationBarComponent extends StatefulWidget {
   const NavigationBarComponent({super.key});
+
+  @override
+  State<NavigationBarComponent> createState() => _NavigationBarComponentState();
+}
+
+class _NavigationBarComponentState extends State<NavigationBarComponent> {
+  final _store = getIt<HomeStore>();
 
   @override
   Widget build(BuildContext context) => Container(
@@ -42,7 +51,7 @@ class NavigationBarComponent extends StatelessWidget {
                   ListTile(
                     title: const Text('Logout', style: TextStyle(color: Colors.white)),
                     leading: const Icon(Icons.exit_to_app, color: Colors.white),
-                    onTap: () {},
+                    onTap: _store.logout,
                   ),
                 ],
               ),
