@@ -25,7 +25,8 @@ class HomeRoute extends ShellRouteData {
   HomeRoute();
 
   @override
-  Widget builder(BuildContext context, GoRouterState state, Widget navigator) => HomePage(content: navigator);
+  Page<Function> pageBuilder(BuildContext context, GoRouterState state, Widget navigator) =>
+      NoTransitionPage(child: HomePage(content: navigator));
 }
 
 class UsersRoute extends GoRouteData {
