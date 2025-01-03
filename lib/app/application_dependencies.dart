@@ -3,6 +3,7 @@ import 'package:walki_admin_panel/app/utils/di/dependency_scope.dart';
 import 'package:walki_admin_panel/app/utils/di/getIt.dart';
 import 'package:walki_admin_panel/app/utils/network/dio_client.dart';
 import 'package:walki_admin_panel/app/utils/network/dio_client_factory.dart';
+import 'package:walki_admin_panel/app/utils/storage/local_storage.dart';
 
 class ApplicationDependencies extends StatefulWidget {
   const ApplicationDependencies({
@@ -22,6 +23,7 @@ class _ApplicationDependenciesState extends State<ApplicationDependencies> with 
     getIt.registerSingleton<GenericDioClient>(
       DioClientFactory.createGenericDioClient(),
     );
+    getIt.registerSingleton<LocalStorage>(LocalStorage());
   }
 
   @override
