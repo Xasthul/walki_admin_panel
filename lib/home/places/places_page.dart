@@ -3,8 +3,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:walki_admin_panel/app/utils/di/getIt.dart';
 import 'package:walki_admin_panel/home/places/places_dependencies.dart';
 import 'package:walki_admin_panel/home/places/store/places_store.dart';
-import 'package:walki_admin_panel/home/places/utils/widget/places_table.dart';
-import 'package:walki_admin_panel/home/utils/widget/default_table_page.dart';
+import 'package:walki_admin_panel/home/places/utils/widget/places_content.dart';
+import 'package:walki_admin_panel/home/utils/widget/default_page.dart';
 
 class PlacesPage extends StatelessWidget {
   const PlacesPage({super.key});
@@ -27,10 +27,10 @@ class _PlacesPageBaseState extends State<_PlacesPageBase> {
 
   @override
   Widget build(BuildContext context) => Observer(
-        builder: (context) => DefaultTablePage(
+        builder: (context) => DefaultPage(
           title: 'Places',
           isLoading: _store.isLoading,
-          table: const PlacesTable(),
+          content: const PlacesContent(),
         ),
       );
 }

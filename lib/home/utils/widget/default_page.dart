@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:walki_admin_panel/app/utils/widget/app_circular_progress_indicator.dart';
 
-class DefaultTablePage extends StatelessWidget {
-  const DefaultTablePage({
+class DefaultPage extends StatelessWidget {
+  const DefaultPage({
     super.key,
     required this.title,
     required this.isLoading,
-    required this.table,
+    required this.content,
   });
 
   final String title;
   final bool isLoading;
-  final Widget table;
+  final Widget content;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -38,7 +38,7 @@ class DefaultTablePage extends StatelessWidget {
                         )
                       : SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          child: table,
+                          child: content,
                         ),
                   const SizedBox(height: 16),
                 ],

@@ -13,6 +13,7 @@ class TableHeaderComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Total: $_total',
