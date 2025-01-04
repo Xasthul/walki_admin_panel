@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'dart:html' as html;
+import 'dart:html' as html; // ignore: avoid_web_libraries_in_flutter
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:walki_admin_panel/app/utils/di/getIt.dart';
 import 'package:walki_admin_panel/home/users/store/users_store.dart';
@@ -68,22 +69,25 @@ class _UsersContentState extends State<UsersContent> {
     pdf.addPage(
       pw.Page(
         build: (_) => pw.Table(
+          border: pw.TableBorder.all(color: PdfColors.grey),
           children: [
             pw.TableRow(
+              repeat: true,
               children: [
-                pw.Text('Email'),
-                pw.Text('Name'),
-                pw.Text('Places Visited'),
-                pw.Text('Reviews Written'),
+                _tableCell('Email', bold: true),
+                _tableCell('Name', bold: true),
+                _tableCell('Places Visited', bold: true, endAlignment: true),
+                _tableCell('Reviews Written', bold: true, endAlignment: true),
               ],
             ),
             ...users.map(
               (user) => pw.TableRow(
+                verticalAlignment: pw.TableCellVerticalAlignment.full,
                 children: [
-                  pw.Text(user.email),
-                  pw.Text(user.name),
-                  pw.Text('${user.placesVisited}'),
-                  pw.Text('${user.reviewsWritten}'),
+                  _tableCell(user.email),
+                  _tableCell(user.name),
+                  _tableCell('${user.placesVisited}', endAlignment: true),
+                  _tableCell('${user.reviewsWritten}', endAlignment: true),
                 ],
               ),
             ),
@@ -96,6 +100,25 @@ class _UsersContentState extends State<UsersContent> {
 
     _downloadPdf(fileInts);
   }
+
+  pw.SizedBox _tableCell(
+    String text, {
+    bool endAlignment = false,
+    bool bold = false,
+  }) =>
+      pw.SizedBox(
+        height: 24,
+        child: pw.Align(
+          alignment: endAlignment ? pw.Alignment.centerRight : pw.Alignment.centerLeft,
+          child: pw.Padding(
+            padding: const pw.EdgeInsets.symmetric(horizontal: 4),
+            child: pw.Text(
+              text,
+              style: pw.TextStyle(fontWeight: bold ? pw.FontWeight.bold : null),
+            ),
+          ),
+        ),
+      );
 
   void _downloadPdf(List<int> bytes) {
     html.AnchorElement anchorElement =
