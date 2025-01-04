@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:walki_admin_panel/app/utils/di/getIt.dart';
 import 'package:walki_admin_panel/home/places/store/places_store.dart';
+import 'package:walki_admin_panel/home/utils/widget/table_header_component.dart';
 
 class PlacesTable extends StatefulWidget {
   const PlacesTable({super.key});
@@ -20,14 +21,9 @@ class _PlacesTableState extends State<PlacesTable> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Total: ${_store.places.length}',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Selected: ${_store.selectedPlaces.length}',
-                  style: const TextStyle(fontSize: 16),
+                TableHeaderComponent(
+                  total: _store.places.length,
+                  selected: _store.selectedPlaces.length,
                 ),
                 const SizedBox(height: 12),
                 DataTable(

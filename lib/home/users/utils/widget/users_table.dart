@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:walki_admin_panel/app/utils/di/getIt.dart';
 import 'package:walki_admin_panel/home/users/store/users_store.dart';
+import 'package:walki_admin_panel/home/utils/widget/table_header_component.dart';
 
 class UsersTable extends StatefulWidget {
   const UsersTable({super.key});
@@ -20,14 +21,9 @@ class _UsersTableState extends State<UsersTable> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Total: ${_store.users.length}',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Selected: ${_store.selectedUsers.length}',
-                  style: const TextStyle(fontSize: 16),
+                TableHeaderComponent(
+                  total: _store.users.length,
+                  selected: _store.selectedUsers.length,
                 ),
                 const SizedBox(height: 12),
                 DataTable(
