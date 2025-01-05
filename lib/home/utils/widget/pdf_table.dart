@@ -1,9 +1,11 @@
+import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:walki_admin_panel/home/utils/entity/generate_report_type.dart';
 
 abstract class PdfTable {
   static Future<List<int>> generate({
+    required String name,
     required GenerateReportType reportType,
     required List<PdfTableColumn> columns,
     required List<pw.TableRow> rows,
@@ -11,22 +13,48 @@ abstract class PdfTable {
     final pdf = pw.Document();
     pdf.addPage(
       pw.Page(
-        build: (_) => pw.Table(
-          border: pw.TableBorder.all(color: PdfColors.grey),
+        build: (_) => pw.Column(
           children: [
-            pw.TableRow(
-              repeat: true,
-              children: columns
-                  .map(
-                    (column) => cell(
-                      column.name,
-                      bold: true,
-                      endAlignment: column.isNumeric,
+            pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+              children: [
+                pw.Text(
+                  name,
+                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 16),
+                ),
+                pw.Column(
+                  children: [
+                    pw.Text(
+                      DateFormat('HH:mm').format(DateTime.now()),
+                      style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10),
                     ),
-                  )
-                  .toList(),
+                    pw.Text(
+                      DateFormat('dd MMM yyyy').format(DateTime.now()),
+                      style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            ...rows,
+            pw.SizedBox(height: 16),
+            pw.Table(
+              border: pw.TableBorder.all(color: PdfColors.grey),
+              children: [
+                pw.TableRow(
+                  repeat: true,
+                  children: columns
+                      .map(
+                        (column) => cell(
+                          column.name,
+                          bold: true,
+                          endAlignment: column.isNumeric,
+                        ),
+                      )
+                      .toList(),
+                ),
+                ...rows,
+              ],
+            ),
           ],
         ),
       ),

@@ -63,6 +63,7 @@ class _UsersContentState extends State<UsersContent> {
       return;
     }
     final pdfBytes = await PdfTable.generate(
+      name: 'Users report',
       reportType: reportType,
       columns: [
         PdfTableColumn(name: 'Email', isNumeric: false),

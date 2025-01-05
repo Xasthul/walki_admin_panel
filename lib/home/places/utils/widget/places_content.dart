@@ -63,6 +63,7 @@ class _PlacesContentState extends State<PlacesContent> {
       return;
     }
     final pdfBytes = await PdfTable.generate(
+      name: 'Places report',
       reportType: reportType,
       columns: [
         PdfTableColumn(name: 'Name', isNumeric: false),
