@@ -1,15 +1,12 @@
-import 'dart:convert';
-import 'dart:html' as html; // ignore: avoid_web_libraries_in_flutter
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
 import 'package:walki_admin_panel/app/utils/di/getIt.dart';
 import 'package:walki_admin_panel/home/users/store/users_store.dart';
 import 'package:walki_admin_panel/home/users/utils/widget/users_table.dart';
 import 'package:walki_admin_panel/home/utils/entity/generate_report_type.dart';
 import 'package:walki_admin_panel/home/utils/entity/user.dart';
+import 'package:walki_admin_panel/home/utils/use_case/download_pdf.dart';
+import 'package:walki_admin_panel/home/utils/widget/pdf_table.dart';
 import 'package:walki_admin_panel/home/utils/widget/report_generation_component.dart';
 import 'package:walki_admin_panel/home/utils/widget/table_header_component.dart';
 
@@ -65,65 +62,30 @@ class _UsersContentState extends State<UsersContent> {
     if (users.isEmpty) {
       return;
     }
-    final pdf = pw.Document();
-    pdf.addPage(
-      pw.Page(
-        build: (_) => pw.Table(
-          border: pw.TableBorder.all(color: PdfColors.grey),
-          children: [
-            pw.TableRow(
-              repeat: true,
-              children: [
-                _tableCell('Email', bold: true),
-                _tableCell('Name', bold: true),
-                _tableCell('Places Visited', bold: true, endAlignment: true),
-                _tableCell('Reviews Written', bold: true, endAlignment: true),
+    final pdfBytes = await PdfTable.generate(
+      reportType: reportType,
+      columns: [
+        PdfTableColumn(name: 'Email', isNumeric: false),
+        PdfTableColumn(name: 'Name', isNumeric: false),
+        PdfTableColumn(name: 'Places Visited', isNumeric: true),
+        PdfTableColumn(name: 'Reviews Written', isNumeric: true),
+      ],
+      rows: users
+          .map(
+            (user) => PdfTable.row(
+              [
+                PdfTable.cell(user.email),
+                PdfTable.cell(user.name),
+                PdfTable.cell('${user.placesVisited}', endAlignment: true),
+                PdfTable.cell('${user.reviewsWritten}', endAlignment: true),
               ],
             ),
-            ...users.map(
-              (user) => pw.TableRow(
-                verticalAlignment: pw.TableCellVerticalAlignment.full,
-                children: [
-                  _tableCell(user.email),
-                  _tableCell(user.name),
-                  _tableCell('${user.placesVisited}', endAlignment: true),
-                  _tableCell('${user.reviewsWritten}', endAlignment: true),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+          )
+          .toList(),
     );
-    var savedFile = await pdf.save();
-    List<int> fileInts = List.from(savedFile);
-
-    _downloadPdf(fileInts);
-  }
-
-  pw.SizedBox _tableCell(
-    String text, {
-    bool endAlignment = false,
-    bool bold = false,
-  }) =>
-      pw.SizedBox(
-        height: 24,
-        child: pw.Align(
-          alignment: endAlignment ? pw.Alignment.centerRight : pw.Alignment.centerLeft,
-          child: pw.Padding(
-            padding: const pw.EdgeInsets.symmetric(horizontal: 4),
-            child: pw.Text(
-              text,
-              style: pw.TextStyle(fontWeight: bold ? pw.FontWeight.bold : null),
-            ),
-          ),
-        ),
-      );
-
-  void _downloadPdf(List<int> bytes) {
-    html.AnchorElement anchorElement =
-        html.AnchorElement(href: "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}");
-    anchorElement.download = "Walki Report ${DateTime.now().millisecondsSinceEpoch}.pdf";
-    anchorElement.click();
+    downloadPdf(
+      name: "Walki Report Users ${DateTime.now().millisecondsSinceEpoch}",
+      bytes: pdfBytes,
+    );
   }
 }

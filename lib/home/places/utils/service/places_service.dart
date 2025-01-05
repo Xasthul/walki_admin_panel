@@ -4,10 +4,10 @@ import 'package:walki_admin_panel/home/places/utils/network/place_response.dart'
 
 class PlacesService {
   PlacesService({
-    required GenericDioClient client,
+    required AuthorizedDioClient client,
   }) : _client = client;
 
-  final GenericDioClient _client;
+  final AuthorizedDioClient _client;
 
   static const _baseUrl = '${AppConstants.serviceBaseUrl}/admin';
 
