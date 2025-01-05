@@ -16,4 +16,7 @@ class PlacesReviewsUseCase {
     final placesReviews = await _placesReviewsService.getPlacesReviews();
     return placesReviews.map(_placesReviewsMapper.mapPlaceReviewFromResponse).toList();
   }
+
+  Future<void> deletePlaceReview({required String reviewId}) async =>
+      _placesReviewsService.deletePlaceReview(reviewId: reviewId);
 }

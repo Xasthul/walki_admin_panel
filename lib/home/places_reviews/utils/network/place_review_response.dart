@@ -5,6 +5,7 @@ part 'place_review_response.g.dart';
 @JsonSerializable()
 class PlaceReviewResponse {
   PlaceReviewResponse(
+    this.id,
     this.placeName,
     this.authorName,
     this.content,
@@ -13,6 +14,7 @@ class PlaceReviewResponse {
 
   factory PlaceReviewResponse.fromJson(Map<String, dynamic> json) => _$PlaceReviewResponseFromJson(json);
 
+  final String id;
   final String placeName;
   final String authorName;
   final String content;

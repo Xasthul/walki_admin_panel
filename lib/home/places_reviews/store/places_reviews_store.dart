@@ -58,6 +58,20 @@ abstract class PlacesReviewsStoreBase with Store {
   void resetSelectedReview() => _selectedPlaceReview = null;
 
   @action
+  Future<void> removeSelectedReview() async {
+    if (_selectedPlaceReview == null) {
+      return;
+    }
+    _isLoading = true;
+    try {
+      await _placesReviewsUseCase.deletePlaceReview(reviewId: _selectedPlaceReview!.id);
+      placesReviews.remove(_selectedPlaceReview!);
+    } finally {
+      _isLoading = false;
+    }
+  }
+
+  @action
   void onPlaceNameSort(int columnIndex, bool sortAscending) {
     if (columnIndex == _sortColumnIndex) {
       _sortAscending = _sortPlaceNameAscending = sortAscending;

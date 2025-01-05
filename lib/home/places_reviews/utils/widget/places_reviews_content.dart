@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:walki_admin_panel/app/utils/di/getIt.dart';
 import 'package:walki_admin_panel/home/places_reviews/store/places_reviews_store.dart';
 import 'package:walki_admin_panel/home/places_reviews/utils/widget/places_reviews_table.dart';
+import 'package:walki_admin_panel/home/places_reviews/utils/widget/remove_selected_place_review_component.dart';
 
 class PlacesReviewsContent extends StatefulWidget {
   const PlacesReviewsContent({super.key});
@@ -33,7 +34,7 @@ class _PlacesReviewsContentState extends State<PlacesReviewsContent> {
                   ],
                 ),
                 const SizedBox(width: 48),
-                // ReportGenerationComponent(onGenerateReport: _generateReport),
+                const RemoveSelectedPlaceReviewComponent(),
                 const SizedBox(width: 12),
               ],
             );

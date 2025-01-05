@@ -16,4 +16,7 @@ class PlacesReviewsService {
     final items = (response as Map<String, dynamic>)['items'] as List<dynamic>;
     return items.map((item) => PlaceReviewResponse.fromJson(item as Map<String, dynamic>)).toList();
   }
+
+  Future<void> deletePlaceReview({required String reviewId}) async =>
+      _client.delete('$_baseUrl/places-reviews/$reviewId');
 }
