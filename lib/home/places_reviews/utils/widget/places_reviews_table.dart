@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 import 'package:walki_admin_panel/app/utils/di/getIt.dart';
 import 'package:walki_admin_panel/home/places_reviews/store/places_reviews_store.dart';
+import 'package:walki_admin_panel/home/utils/widget/text_with_max_width.dart';
 
 class PlacesReviewsTable extends StatefulWidget {
   const PlacesReviewsTable({super.key});
@@ -24,6 +25,7 @@ class _PlacesReviewsTableState extends State<PlacesReviewsTable> {
           sortColumnIndex: _store.sortColumnIndex,
           sortAscending: _store.sortAscending,
           onSelectAll: (_) => _store.resetSelectedReview(),
+          dataRowMaxHeight: double.infinity,
           columns: [
             DataColumn(
               label: const Text('Place'),
@@ -35,12 +37,10 @@ class _PlacesReviewsTableState extends State<PlacesReviewsTable> {
             ),
             DataColumn(
               label: const Text('Content'),
-              numeric: true,
               onSort: _store.onContentSort,
             ),
             DataColumn(
               label: const Text('Creation Date'),
-              numeric: true,
               onSort: _store.onCreatedAtSort,
             ),
           ],
@@ -53,9 +53,15 @@ class _PlacesReviewsTableState extends State<PlacesReviewsTable> {
                     isSelected: isSelected,
                   ),
                   cells: [
-                    DataCell(Text(review.placeName)),
-                    DataCell(Text(review.authorName)),
-                    DataCell(Text(review.content)),
+                    DataCell(
+                      TextWithMaxWidth(text: review.placeName, maxWidth: 240),
+                    ),
+                    DataCell(
+                      TextWithMaxWidth(text: review.authorName, maxWidth: 200),
+                    ),
+                    DataCell(
+                      TextWithMaxWidth(text: review.content, maxWidth: 240),
+                    ),
                     DataCell(
                       Text(
                         'At ${DateFormat('HH:mm').format(review.createdAt)} '

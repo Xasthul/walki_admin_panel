@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:walki_admin_panel/app/utils/di/getIt.dart';
 import 'package:walki_admin_panel/home/places/store/places_store.dart';
+import 'package:walki_admin_panel/home/utils/widget/text_with_max_width.dart';
 
 class PlacesTable extends StatefulWidget {
   const PlacesTable({super.key});
@@ -22,6 +23,7 @@ class _PlacesTableState extends State<PlacesTable> {
           ),
           sortColumnIndex: _store.sortColumnIndex,
           sortAscending: _store.sortAscending,
+          dataRowMaxHeight: double.infinity,
           columns: [
             DataColumn(
               label: const Text('Name'),
@@ -47,7 +49,9 @@ class _PlacesTableState extends State<PlacesTable> {
                     isSelected: isSelected,
                   ),
                   cells: [
-                    DataCell(Text(place.name)),
+                    DataCell(
+                      TextWithMaxWidth(text: place.name, maxWidth: 240),
+                    ),
                     DataCell(Text('${place.timesVisited}')),
                     DataCell(Text('${place.reviewsNumber}')),
                   ],

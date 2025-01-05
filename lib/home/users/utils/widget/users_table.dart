@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:walki_admin_panel/app/utils/di/getIt.dart';
 import 'package:walki_admin_panel/home/users/store/users_store.dart';
+import 'package:walki_admin_panel/home/utils/widget/text_with_max_width.dart';
 
 class UsersTable extends StatefulWidget {
   const UsersTable({super.key});
@@ -22,6 +23,7 @@ class _UsersTableState extends State<UsersTable> {
           ),
           sortColumnIndex: _store.sortColumnIndex,
           sortAscending: _store.sortAscending,
+          dataRowMaxHeight: double.infinity,
           columns: [
             DataColumn(
               label: const Text('Email'),
@@ -51,8 +53,12 @@ class _UsersTableState extends State<UsersTable> {
                     isSelected: isSelected,
                   ),
                   cells: [
-                    DataCell(Text(user.email)),
-                    DataCell(Text(user.name)),
+                    DataCell(
+                      TextWithMaxWidth(text: user.email, maxWidth: 240),
+                    ),
+                    DataCell(
+                      TextWithMaxWidth(text: user.name, maxWidth: 240),
+                    ),
                     DataCell(Text('${user.placesVisited}')),
                     DataCell(Text('${user.reviewsWritten}')),
                   ],
