@@ -15,6 +15,13 @@ abstract class PdfTable {
       pw.Page(
         build: (_) => pw.Column(
           children: [
+            pw.Center(
+              child: pw.Text(
+                'Walki',
+                style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 20),
+              ),
+            ),
+            pw.SizedBox(height: 20),
             pw.Row(
               mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
               children: [
@@ -68,13 +75,13 @@ abstract class PdfTable {
         children: cells,
       );
 
-  static pw.SizedBox cell(
+  static pw.Widget cell(
     String text, {
     bool endAlignment = false,
     bool bold = false,
   }) =>
-      pw.SizedBox(
-        height: 24,
+      pw.ConstrainedBox(
+        constraints: const pw.BoxConstraints(minWidth: 320, minHeight: 24, maxHeight: double.infinity),
         child: pw.Align(
           alignment: endAlignment ? pw.Alignment.centerRight : pw.Alignment.centerLeft,
           child: pw.Padding(
