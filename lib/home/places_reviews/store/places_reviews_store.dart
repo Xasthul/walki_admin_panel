@@ -66,6 +66,7 @@ abstract class PlacesReviewsStoreBase with Store {
     try {
       await _placesReviewsUseCase.deletePlaceReview(reviewId: _selectedPlaceReview!.id);
       placesReviews.remove(_selectedPlaceReview!);
+      resetSelectedReview();
     } finally {
       _isLoading = false;
     }
